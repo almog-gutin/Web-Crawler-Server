@@ -1,11 +1,11 @@
 const express = require('express');
 const isTreeInDB = require('../middleware/isTreeInDB');
-const { newQueue, tree } = require('../controllers/queueController');
+const { newQueue, stream } = require('../controllers/clientController');
 
 const router = new express.Router();
 
 router.post('/new-queue', isTreeInDB, newQueue);
 
-router.post('/tree', isTreeInDB, tree);
+router.post('/stream', isTreeInDB, stream);
 
 module.exports = router;

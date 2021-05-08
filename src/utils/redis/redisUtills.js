@@ -7,7 +7,7 @@ const redisGetTree = async (queueName) => {
 
 const redisSetTree = async (queueName, tree) => {
     const stringfyTree = JSON.stringify(tree);
-    await redisClient.setexAsync(queueName, stringfyTree);
+    await redisClient.setexAsync(queueName, 1200, stringfyTree);
 };
 
 module.exports = { redisGetTree, redisSetTree };

@@ -1,5 +1,5 @@
 const chalk = require('chalk');
-const { redisGetTree, redisSetTree } = require('../redis/redisUtills');
+const { redisGetTree } = require('../redis/redisUtills');
 
 const getTreeFromDB = async (queueName) => {
     try {

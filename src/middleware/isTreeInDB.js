@@ -2,23 +2,20 @@ const chalk = require('chalk');
 const { getTreeFromDB } = require('../utils/tree/treeUtils');
 const generateQueueName = require('../utils/queue/generateQueueName');
 
-const checkIfTreeExisits = async (req, res, next) => {
-    const params = ['URL', 'title', 'maxLevel', 'maxPages'];
-    const request = req.body;
+const isTreeInDB = async (req, res, next) => {
+    const params = ['url', 'title', 'maxLevel', 'maxPages'];
+    const request = req.body.request;
+    console.log(request);
     params.forEach((param) => {
-        if (!request[param])
-            res.status(404).send({
-                status: 404,
-                message: 'Bad request!',
-            });
+        if (!request[param]) return res.status(404).send({ status: 404, message: 'Bad request!' });
     });
 
     try {
         const queueName = generateQueueName(request.title, request.maxLevel, request.maxPages);
         const tree = await getTreeFromDB(queueName);
-        console.log('Tree:', tree);
+        console.log('isTreeInDB Tree:', tree);
         if (tree) {
-            if (tree.completed) return res.send({ status: 200, tree });
+            if (tree.isTreeComplete) return res.send({ status: 200, tree });
             req.tree = tree;
         }
         request.queueName = queueName;
@@ -30,4 +27,4 @@ const checkIfTreeExisits = async (req, res, next) => {
     }
 };
 
-module.exports = checkIfTreeExisits;
+module.exports = isTreeInDB;

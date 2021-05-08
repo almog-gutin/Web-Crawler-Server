@@ -44,7 +44,7 @@ const sendMeesageToQueue = async (queueURL, data) => {
             },
             'url': {
                 DataType: 'String',
-                StringValue: data.URL,
+                StringValue: data.url,
             },
             'level': {
                 DataType: 'String',

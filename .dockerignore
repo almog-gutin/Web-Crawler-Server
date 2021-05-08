@@ -2,3 +2,4 @@ node_moduels
 config
 ./git
 Dockerfile
+kubernetes

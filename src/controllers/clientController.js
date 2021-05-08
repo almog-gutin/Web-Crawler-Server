@@ -5,29 +5,31 @@ const handleCompletionOfTree = require('../utils/tree/treeHandler');
 
 const newQueue = async (req, res) => {
     try {
-        if (req.tree) return res.send({ status: 200, data: req.tree });
+        if (req.tree) return res.send({ status: 200, data: { tree: req.tree } });
         const queue = await initQueue(req.request);
         if (!queue) throw 'initQueue function did not work.';
         res.status(201).send({ status: 201, data: { queue } });
     } catch (err) {
-        console.log(chalk.red.inverse('Error in the newQueue controller.', err));
+        console.log(chalk.red.inverse('Error in the newQueue controller:'), err);
         res.status(500).send({ status: 500, message: 'Internal Server Error' });
     }
 };
 
-const tree = async (req, res) => {
+const stream = async (req, res) => {
+    let tree = req.tree;
+
     try {
-        const tree = req.tree;
         if (tree) {
             const queueURL = await getQueueURL(req.request.queueName);
-            tree = await handleCompletionOfTree(tree, queueURL);
-            res.send({ status: 200, data: { tree } });
+            console.log(queueURL);
+            tree = await handleCompletionOfTree(tree, queueURL, req.request.queueName);
+            return res.send({ status: 200, data: { tree } });
         }
         res.status(404).send({ status: 404, message: 'Queue was not found.' });
-    } catch {
-        console.log(chalk.red.inverse('Error in the tree controller.', err));
+    } catch (err) {
+        console.log(chalk.red.inverse('Error in the stream controller:'), err);
         res.status(500).send({ status: 500, message: 'Internal Server Error' });
     }
 };
 
-module.exports = { newQueue, tree };
+module.exports = { newQueue, stream };
