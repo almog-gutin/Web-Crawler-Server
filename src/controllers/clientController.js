@@ -21,7 +21,6 @@ const stream = async (req, res) => {
     try {
         if (tree) {
             const queueURL = await getQueueURL(req.request.queueName);
-            console.log(queueURL);
             tree = await handleCompletionOfTree(tree, queueURL, req.request.queueName);
             return res.send({ status: 200, data: { tree } });
         }

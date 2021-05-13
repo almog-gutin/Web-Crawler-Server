@@ -12,7 +12,7 @@ const createQueue = async (queueName) => {
 
     try {
         const { QueueUrl } = await sqs.createQueue(params).promise();
-        console.log(chalk.blue(`Queue ${queueName} has been successfully created!`));
+        console.log(chalk.blue(`Queue ${chalk.bold(queueName)} has been successfully created!`));
         return QueueUrl;
     } catch (err) {
         console.log(chalk.red.inverse('Error while creating a queue:'), err);
